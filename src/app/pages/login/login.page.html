@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-slides class="main-slide">
+  <ion-slides class="main-slide" #mainSlide>
     <ion-slide>
       <form (ngSubmit)="login()" [formGroup]="loginForm">
         <ion-grid fixed>
@@ -137,9 +137,10 @@
         <ion-button
           shape="round"
           expand="full"
-          size="small"
+          size="medium"
           fill="outline"
           color="tertiary"
+          (click)="moveToSwipe(0)"
         >
           Ingresar
         </ion-button>
@@ -149,9 +150,10 @@
         <ion-button
           shape="round"
           expand="full"
-          size="small"
+          size="medium"
           fill="outline"
           color="tertiary"
+          (click)="moveToSwipe(1)"
         >
           Registrarme
         </ion-button>

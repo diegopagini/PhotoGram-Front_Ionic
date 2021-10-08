@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonSlides } from '@ionic/angular';
 import { SwiperOptions } from 'swiper';
 
 @Component({
@@ -8,6 +9,7 @@ import { SwiperOptions } from 'swiper';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  @ViewChild('mainSlide', { static: true }) slides: IonSlides;
   public loginForm: FormGroup;
   public registerForm: FormGroup;
   public avatarSlideOptions: SwiperOptions = {
@@ -51,11 +53,16 @@ export class LoginPage implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    // Bloquear slides
+    this.slides.lockSwipes(true);
+
+    // Crear loginForm
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
 
+    // Crear registerForm
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required]],
@@ -82,5 +89,11 @@ export class LoginPage implements OnInit {
     } else {
       this.registerForm.markAllAsTouched();
     }
+  }
+
+  public moveToSwipe(index: number) {
+    this.slides.lockSwipes(false);
+    this.slides.slideTo(index);
+    this.slides.lockSwipes(true);
   }
 }
