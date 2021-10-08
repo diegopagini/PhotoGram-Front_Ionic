@@ -8,4 +8,5 @@ import { Post } from 'src/app/interfaces/interfaces';
 })
 export class PostComponent {
   @Input() post: Post = {};
+  img1 = '/assets/perro-1.jpg';
 }

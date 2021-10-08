@@ -11,16 +11,39 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class HomePage implements OnInit, OnDestroy {
   public posts: Post[] = [];
+  public disabled = false;
   private unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private postsService: PostsService) {}
 
   ngOnInit(): void {
+    this.nextPosts();
+  }
+
+  public reload(event) {
+    this.nextPosts(event, true);
+  }
+
+  public nextPosts(event?: any, pull: boolean = false) {
+    if (pull) {
+      this.disabled = false;
+      this.posts = [];
+    }
+
     this.postsService
-      .getPosts()
+      .getPosts(pull)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data) => {
         this.posts.push(...data.posts);
+        console.log(this.posts);
+        // Infinite Scroll
+        if (event) {
+          event.target.complete();
+          // Completar el Infinite Scroll
+          if (data.posts.length === 0) {
+            this.disabled = true;
+          }
+        }
       });
   }
 

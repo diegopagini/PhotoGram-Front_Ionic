@@ -9,9 +9,20 @@
 
 <ion-content color="light">
   <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <!-- Posts -->
   <app-posts [posts]="posts"></app-posts>
 
   <!-- Infinite Scroll -->
+  <ion-infinite-scroll
+    [disabled]="disabled"
+    threshold="25%"
+    (ionInfinite)="nextPosts($event)"
+  >
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -16,14 +16,20 @@
     </ion-item>
 
     <ion-slides pager="true">
-      <ion-slide>
-        <img src="/assets/perro-1.jpg" alt="" />
+      <ion-slide
+        class="post__slide-image"
+        [ngStyle]="{ 'background-image': 'url(' + img1 + ')' }"
+      >
       </ion-slide>
-      <ion-slide>
-        <img src="/assets/perro-2.jpg" alt="" />
+      <ion-slide
+        class="post__slide-image"
+        [ngStyle]="{ 'background-image': 'url(' + '/assets/perro-2.jpg' + ')' }"
+      >
       </ion-slide>
-      <ion-slide>
-        <img src="/assets/perro-3.jpg" alt="" />
+      <ion-slide
+        class="post__slide-image"
+        [ngStyle]="{ 'background-image': 'url(' + '/assets/perro-3.jpg' + ')' }"
+      >
       </ion-slide>
     </ion-slides>
   </div>

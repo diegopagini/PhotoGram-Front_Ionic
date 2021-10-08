@@ -14,7 +14,10 @@ export class PostsService {
 
   constructor(private http: HttpClient) {}
 
-  public getPosts(): Observable<Posts> {
+  public getPosts(pull: boolean = false): Observable<Posts> {
+    if (pull) {
+      this.postPage = 0;
+    }
     this.postPage++;
     return this.http.get<Posts>(`${URL}/posts/?page=${this.postPage}`);
   }
