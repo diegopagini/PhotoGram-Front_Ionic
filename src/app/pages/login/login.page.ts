@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, NavController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user.service';
 import { SwiperOptions } from 'swiper';
 
 @Component({
@@ -50,7 +51,11 @@ export class LoginPage implements OnInit {
     },
   ];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private nav: NavController
+  ) {}
 
   ngOnInit(): void {
     // Bloquear slides
@@ -70,15 +75,24 @@ export class LoginPage implements OnInit {
     });
   }
 
-  public login(): void {
+  public async login() {
+    const email = this.loginForm.get('email').value;
+    const password = this.loginForm.get('password').value;
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      // Al devolver una promsea utilizando async si se llama al await se trabaja con la respuesta de esa promesa
+      const valid = await this.userService.login(email, password);
+      if (valid) {
+        // navegar
+        this.nav.navigateRoot('/main/tabs/home', { animated: true });
+      } else {
+        // mostrat alerta usuario y/o contraseña incorrecto
+      }
     } else {
       this.loginForm.markAllAsTouched();
     }
   }
 
-  public selectAvatar(avatar: any) {
+  public selectAvatar(avatar: any): void {
     this.avatars.forEach((el: any) => (el.selected = false));
     avatar.selected = true;
   }
@@ -91,7 +105,7 @@ export class LoginPage implements OnInit {
     }
   }
 
-  public moveToSwipe(index: number) {
+  public moveToSwipe(index: number): void {
     this.slides.lockSwipes(false);
     this.slides.slideTo(index);
     this.slides.lockSwipes(true);
