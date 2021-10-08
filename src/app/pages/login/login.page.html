@@ -1,9 +1,161 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-slides class="main-slide">
+    <ion-slide>
+      <form (ngSubmit)="login()" [formGroup]="loginForm">
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col>
+              <img src="/assets/avatars/av-1.png" />
+            </ion-col>
+          </ion-row>
 
+          <ion-row>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label>Email</ion-label>
+                  <ion-input
+                    formControlName="email"
+                    name="email"
+                    type="email"
+                    required
+                  ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Password</ion-label>
+                  <ion-input
+                    formControlName="password"
+                    name="password"
+                    type="password"
+                    required
+                  ></ion-input>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button
+                [disabled]="loginForm.invalid"
+                type="submit"
+                color="tertiary"
+                shape="round"
+              >
+                Login
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col>
+            <h3>Seleccione Avatar</h3>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-slides [options]="avatarSlideOptions">
+              <ion-slide *ngFor="let avatar of avatars">
+                <ion-img
+                  class="pick-avatar"
+                  src="/assets/avatars/{{avatar.img}}"
+                  [alt]="avatar.img"
+                  [ngClass]="{'pick-avatar-selected': avatar.selected}"
+                  (click)="selectAvatar(avatar)"
+                ></ion-img>
+              </ion-slide>
+            </ion-slides>
+          </ion-col>
+        </ion-row>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+          <ion-row>
+            <ion-col>
+              <ion-list>
+                <ion-item>
+                  <ion-label>Email</ion-label>
+                  <ion-input
+                    formControlName="email"
+                    name="email"
+                    type="email"
+                    required
+                  ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Nombre</ion-label>
+                  <ion-input
+                    formControlName="name"
+                    name="name"
+                    type="text"
+                    required
+                  ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Password</ion-label>
+                  <ion-input
+                    formControlName="password"
+                    name="password"
+                    type="password"
+                    required
+                  ></ion-input>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button
+                [disabled]="registerForm.invalid"
+                type="submit"
+                color="tertiary"
+                shape="round"
+              >
+                Crear usuario
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
+
+<ion-footer no-border>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <ion-button
+          shape="round"
+          expand="full"
+          size="small"
+          fill="outline"
+          color="tertiary"
+        >
+          Ingresar
+        </ion-button>
+      </ion-col>
+
+      <ion-col>
+        <ion-button
+          shape="round"
+          expand="full"
+          size="small"
+          fill="outline"
+          color="tertiary"
+        >
+          Registrarme
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

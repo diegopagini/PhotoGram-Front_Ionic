@@ -22,14 +22,11 @@ export class HomePage implements OnInit, OnDestroy {
 
   public reload(event) {
     this.nextPosts(event, true);
+    this.disabled = false;
+    this.posts = [];
   }
 
   public nextPosts(event?: any, pull: boolean = false) {
-    if (pull) {
-      this.disabled = false;
-      this.posts = [];
-    }
-
     this.postsService
       .getPosts(pull)
       .pipe(takeUntil(this.unsubscribe$))
