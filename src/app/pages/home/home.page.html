@@ -1,14 +1,17 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title> Blank </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon slot="icon-only" name="bonfire"></ion-icon>
+    </ion-buttons>
+    <ion-title>PhotoGram</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <h1>Hola Mundo</h1>
+<ion-content color="light">
+  <!-- Refresher -->
+
+  <!-- Posts -->
+  <app-posts [posts]="posts"></app-posts>
+
+  <!-- Infinite Scroll -->
 </ion-content>
