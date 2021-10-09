@@ -89,6 +89,14 @@ export class UserService {
     });
   }
 
+  public getUser(): User {
+    // eslint-disable-next-line no-underscore-dangle
+    if (!this.user._id) {
+      this.validateToken();
+    }
+    return { ...this.user };
+  }
+
   private async loadToken() {
     this.token = (await this.storage.get('token')) || null;
   }
