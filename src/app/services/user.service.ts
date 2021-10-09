@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -12,8 +13,13 @@ const URL = environment.baseUrl;
 })
 export class UserService {
   public token: string = null;
+  public user: User = {};
 
-  constructor(private http: HttpClient, private storage: Storage) {
+  constructor(
+    private http: HttpClient,
+    private storage: Storage,
+    private navController: NavController
+  ) {
     this.createStorage();
   }
 
@@ -52,6 +58,39 @@ export class UserService {
           }
         });
     });
+  }
+
+  public async validateToken(): Promise<boolean> {
+    // Cargar el token
+    await this.loadToken();
+    // Si no existe resolver la promesa con un false
+    if (!this.token) {
+      this.navController.navigateRoot('/login');
+      return Promise.resolve(false);
+    }
+    // Si existe que se haga la validacion normal
+    return new Promise((resolve, reject) => {
+      const headers = new HttpHeaders({
+        'x-token': this.token,
+      });
+
+      this.http
+        .get(`${URL}/user/`, { headers })
+        .pipe(take(1))
+        .subscribe((resp: any) => {
+          if (resp.ok) {
+            this.user = resp.user;
+            resolve(true);
+          } else {
+            this.navController.navigateRoot('/login');
+            resolve(false);
+          }
+        });
+    });
+  }
+
+  private async loadToken() {
+    this.token = (await this.storage.get('token')) || null;
   }
 
   private async saveToken(token: string) {
