@@ -32,7 +32,6 @@ export class HomePage implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data) => {
         this.posts.push(...data.posts);
-        console.log(this.posts);
         // Infinite Scroll
         if (event) {
           event.target.complete();

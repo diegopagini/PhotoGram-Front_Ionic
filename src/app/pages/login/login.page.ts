@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
 import { UiService } from 'src/app/services/ui.service';
 import { UserService } from 'src/app/services/user.service';
-import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: 'app-login',
@@ -14,43 +13,7 @@ export class LoginPage implements OnInit {
   @ViewChild('mainSlide', { static: true }) slides: IonSlides;
   public loginForm: FormGroup;
   public registerForm: FormGroup;
-  public avatarSlideOptions: SwiperOptions = {
-    slidesPerView: 3.5,
-  };
-  public avatars: any[] = [
-    {
-      img: 'av-1.png',
-      selected: true,
-    },
-    {
-      img: 'av-2.png',
-      selected: false,
-    },
-    {
-      img: 'av-3.png',
-      selected: false,
-    },
-    {
-      img: 'av-4.png',
-      selected: false,
-    },
-    {
-      img: 'av-5.png',
-      selected: false,
-    },
-    {
-      img: 'av-6.png',
-      selected: false,
-    },
-    {
-      img: 'av-7.png',
-      selected: false,
-    },
-    {
-      img: 'av-8.png',
-      selected: false,
-    },
-  ];
+  public selectedAvatar: string;
 
   constructor(
     private fb: FormBuilder,
@@ -97,14 +60,19 @@ export class LoginPage implements OnInit {
     }
   }
 
-  public selectAvatar(avatar: any): void {
-    this.avatars.forEach((el: any) => (el.selected = false));
-    avatar.selected = true;
+  public avatarSelected(avatar) {
+    this.selectedAvatar = avatar;
   }
 
   public async register() {
     if (this.registerForm.valid) {
-      const valid = await this.userService.register(this.registerForm.value);
+      const user = {
+        ...this.registerForm.value,
+        avatar: this.selectedAvatar,
+      };
+
+      const valid = await this.userService.register(user);
+
       if (valid) {
         this.nav.navigateRoot('/main/tabs/home', { animated: true });
       } else {
