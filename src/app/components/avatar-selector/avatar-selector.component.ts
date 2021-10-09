@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SwiperOptions } from 'swiper';
 
 @Component({
@@ -6,8 +6,9 @@ import { SwiperOptions } from 'swiper';
   templateUrl: './avatar-selector.component.html',
   styleUrls: ['./avatar-selector.component.scss'],
 })
-export class AvatarSelectorComponent {
+export class AvatarSelectorComponent implements OnInit {
   @Output() avatarSelected: EventEmitter<string> = new EventEmitter<string>();
+  @Input() currentAvatar = 'av-1.png';
 
   public avatarSlideOptions: SwiperOptions = {
     slidesPerView: 3.5,
@@ -46,6 +47,15 @@ export class AvatarSelectorComponent {
       selected: false,
     },
   ];
+
+  ngOnInit(): void {
+    this.avatars.map((el) => (el.selected = false));
+    this.avatars.map((el) => {
+      if (el.img === this.currentAvatar) {
+        el.selected = true;
+      }
+    });
+  }
 
   public selectAvatar(avatar: any): void {
     this.avatars.forEach((el: any) => (el.selected = false));

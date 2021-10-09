@@ -97,6 +97,25 @@ export class UserService {
     return { ...this.user };
   }
 
+  public updateUser(user: User): Promise<boolean> {
+    const headers = new HttpHeaders({
+      'x-token': this.token,
+    });
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${URL}/user/update`, user, { headers })
+        .pipe(take(1))
+        .subscribe((resp: any) => {
+          if (resp.ok) {
+            this.saveToken(resp.token);
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+    });
+  }
+
   private async loadToken() {
     this.token = (await this.storage.get('token')) || null;
   }
