@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { User } from '../interfaces/interfaces';
 
 const URL = environment.baseUrl;
 
@@ -21,6 +22,24 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.http
         .post(`${URL}/user/login`, data)
+        .pipe(take(1))
+        .subscribe((resp: any) => {
+          if (resp.ok) {
+            this.saveToken(resp.token);
+            resolve(true);
+          } else {
+            this.token = null;
+            this.storage.clear();
+            resolve(false);
+          }
+        });
+    });
+  }
+
+  public register(user: User): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${URL}/user/create`, user)
         .pipe(take(1))
         .subscribe((resp: any) => {
           if (resp.ok) {

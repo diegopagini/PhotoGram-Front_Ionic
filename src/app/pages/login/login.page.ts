@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
+import { UiService } from 'src/app/services/ui.service';
 import { UserService } from 'src/app/services/user.service';
 import { SwiperOptions } from 'swiper';
 
@@ -54,7 +55,8 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private nav: NavController
+    private nav: NavController,
+    private uiService: UiService
   ) {}
 
   ngOnInit(): void {
@@ -86,6 +88,9 @@ export class LoginPage implements OnInit {
         this.nav.navigateRoot('/main/tabs/home', { animated: true });
       } else {
         // mostrat alerta usuario y/o contraseña incorrecto
+        this.uiService.informationalAlert(
+          'Usuario y/o contraseña incorrectos.'
+        );
       }
     } else {
       this.loginForm.markAllAsTouched();
@@ -97,9 +102,14 @@ export class LoginPage implements OnInit {
     avatar.selected = true;
   }
 
-  public register(): void {
+  public async register() {
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
+      const valid = await this.userService.register(this.registerForm.value);
+      if (valid) {
+        this.nav.navigateRoot('/main/tabs/home', { animated: true });
+      } else {
+        this.uiService.informationalAlert('Ese correo electrónico ya existe.');
+      }
     } else {
       this.registerForm.markAllAsTouched();
     }
