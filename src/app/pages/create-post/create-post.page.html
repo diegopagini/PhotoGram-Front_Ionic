@@ -30,7 +30,7 @@
           *ngIf="geoLocationLoading"
         ></ion-spinner>
         <ion-toggle
-          [(ngModel)]="post.coords"
+          [(ngModel)]="post.position"
           (ionChange)="getGeolocation()"
           slot="end"
         ></ion-toggle>

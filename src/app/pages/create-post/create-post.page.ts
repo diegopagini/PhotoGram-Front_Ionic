@@ -29,12 +29,13 @@ export class CreatePostPage {
 
     this.post = {
       message: '',
+      coords: null,
+      position: false,
     };
     this.router.navigateByUrl('main/tabs/home');
   }
 
   public getGeolocation() {
-    this.post.position = !this.post.position;
     if (!this.post.position) {
       this.post.coords = null;
       return;
@@ -49,8 +50,8 @@ export class CreatePostPage {
         this.post.coords = coords;
       })
       .catch((err) => {
-        this.geoLocationLoading = false;
         console.log(err);
+        this.geoLocationLoading = false;
       });
   }
 }
