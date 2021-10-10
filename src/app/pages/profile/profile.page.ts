@@ -29,7 +29,9 @@ export class ProfilePage implements OnInit {
     this.getAndUpdateUser();
   }
 
-  public logout() {}
+  public logout(): void {
+    this.userService.logout();
+  }
 
   public avatarSelected(event) {
     this.updateForm.get('avatar').setValue(event);

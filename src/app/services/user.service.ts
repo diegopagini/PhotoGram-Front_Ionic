@@ -60,6 +60,13 @@ export class UserService {
     });
   }
 
+  public logout() {
+    this.token = null;
+    this.user = null;
+    this.storage.clear();
+    this.navController.navigateRoot('/login', { animated: true });
+  }
+
   public async validateToken(): Promise<boolean> {
     // Cargar el token
     await this.loadToken();
