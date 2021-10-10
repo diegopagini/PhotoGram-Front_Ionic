@@ -19,6 +19,13 @@ const routes: Routes = [
           import('../profile/profile.module').then((m) => m.ProfilePageModule),
       },
       {
+        path: 'create-post',
+        loadChildren: () =>
+          import('../create-post/create-post.module').then(
+            (m) => m.CreatePostPageModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',
