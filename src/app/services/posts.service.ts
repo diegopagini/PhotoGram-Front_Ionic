@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Posts } from '../interfaces/interfaces';
+import { Post, Posts } from '../interfaces/interfaces';
+import { UserService } from './user.service';
 
 const URL = environment.baseUrl;
 
@@ -10,9 +12,10 @@ const URL = environment.baseUrl;
   providedIn: 'root',
 })
 export class PostsService {
+  public newPost: EventEmitter<Post> = new EventEmitter<Post>();
   private postPage = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   public getPosts(pull: boolean = false): Observable<Posts> {
     if (pull) {
@@ -20,5 +23,21 @@ export class PostsService {
     }
     this.postPage++;
     return this.http.get<Posts>(`${URL}/posts/?page=${this.postPage}`);
+  }
+
+  public createPost(post: Post): Promise<boolean> {
+    const headers = new HttpHeaders({
+      'x-token': this.userService.token,
+    });
+
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${URL}/posts/`, post, { headers })
+        .pipe(take(1))
+        .subscribe((resp: any) => {
+          this.newPost.emit(resp.post);
+          resolve(true);
+        });
+    });
   }
 }

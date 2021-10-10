@@ -3,7 +3,11 @@
     <ion-title> Nuevo Post </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button (click)="createPost()" color="primary">
+      <ion-button
+        [disabled]="post.message.length < 1"
+        (click)="createPost()"
+        color="primary"
+      >
         Compartir
       </ion-button>
     </ion-buttons>
@@ -14,7 +18,8 @@
   <ion-list>
     <ion-item>
       <ion-label position="floating">Mensaje</ion-label>
-      <ion-textarea></ion-textarea>
+      <!-- Two way data binding con el objeto del ts. Para variar con los reactiveForms -->
+      <ion-textarea [(ngModel)]="post.message"></ion-textarea>
     </ion-item>
 
     <ion-list>

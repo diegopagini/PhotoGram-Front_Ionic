@@ -18,6 +18,11 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.nextPosts();
+    this.postsService.newPost
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((post: Post) => {
+        this.posts.unshift(post);
+      });
   }
 
   public reload(event) {
