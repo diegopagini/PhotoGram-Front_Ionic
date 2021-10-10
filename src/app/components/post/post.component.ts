@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Post } from 'src/app/interfaces/interfaces';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: 'app-post',
@@ -8,5 +9,9 @@ import { Post } from 'src/app/interfaces/interfaces';
 })
 export class PostComponent {
   @Input() post: Post = {};
-  img1 = '/assets/perro-1.jpg';
+
+  public slideOnlyOptions: SwiperOptions = {
+    allowSlideNext: false,
+    allowSlidePrev: false,
+  };
 }

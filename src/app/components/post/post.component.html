@@ -15,10 +15,20 @@
       </ion-label>
     </ion-item>
 
-    <ion-slides pager="true">
+    <ion-slides pager="true" *ngIf="post.img.length > 1">
       <ion-slide
+        *ngFor="let img of post.img"
         class="post__slide-image"
-        [ngStyle]="{ 'background-image': 'url(' + img1 + ')' }"
+        [style.background-image]="img | image: post.user._id | domSanitizer"
+      >
+      </ion-slide>
+    </ion-slides>
+
+    <ion-slides *ngIf="post.img.length === 1" [options]="slideOnlyOptions">
+      <ion-slide
+        *ngFor="let img of post.img"
+        class="post__slide-image"
+        [style.background-image]="img | image: post.user._id | domSanitizer"
       >
       </ion-slide>
     </ion-slides>

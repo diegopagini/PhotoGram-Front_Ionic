@@ -11,6 +11,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
     Geolocation,
     Camera,
     ImagePicker,
+    FileTransfer,
   ],
   bootstrap: [AppComponent],
 })

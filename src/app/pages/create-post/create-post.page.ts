@@ -35,6 +35,8 @@ export class CreatePostPage {
       coords: null,
       position: false,
     };
+
+    this.tempImages = [];
     this.router.navigateByUrl('main/tabs/home');
   }
 
@@ -87,7 +89,7 @@ export class CreatePostPage {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
         const img = window.Ionic.WebView.converFileSrc(imageData);
-        console.log(img);
+        this.postsService.uploadImage(imageData);
         this.tempImages.push(img);
       },
       (err) => {

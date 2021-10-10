@@ -5,6 +5,11 @@ import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Post, Posts } from '../interfaces/interfaces';
 import { UserService } from './user.service';
+import {
+  FileTransfer,
+  FileUploadOptions,
+  FileTransferObject,
+} from '@ionic-native/file-transfer/ngx';
 
 const URL = environment.baseUrl;
 
@@ -15,7 +20,11 @@ export class PostsService {
   public newPost: EventEmitter<Post> = new EventEmitter<Post>();
   private postPage = 0;
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+    private fileTransfer: FileTransfer
+  ) {}
 
   public getPosts(pull: boolean = false): Observable<Posts> {
     if (pull) {
@@ -39,5 +48,21 @@ export class PostsService {
           resolve(true);
         });
     });
+  }
+
+  public uploadImage(img: string): void {
+    const options: FileUploadOptions = {
+      fileKey: 'image',
+      headers: {
+        'x-token': this.userService.token,
+      },
+    };
+    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+    fileTransfer
+      .upload(img, `${URL}/posts/upload`, options)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
   }
 }
