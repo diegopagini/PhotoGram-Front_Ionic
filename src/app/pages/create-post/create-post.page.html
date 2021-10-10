@@ -40,7 +40,7 @@
 
   <ion-row>
     <ion-col size="6">
-      <ion-button expand="full" shape="round">
+      <ion-button expand="full" shape="round" (click)="useCamera()">
         <ion-icon slot="start" name="camera"></ion-icon>
         Cámara
       </ion-button>
@@ -53,10 +53,10 @@
     </ion-col>
   </ion-row>
 
-  <ion-row>
+  <ion-row *ngIf="tempImages.length > 0 ">
     <ion-col size="3" *ngFor="let image of tempImages">
       <ion-card>
-        <img src="" />
+        <img [src]="image" [alt]="image" loading="lazy" />
       </ion-card>
     </ion-col>
   </ion-row>

@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { Post } from 'src/app/interfaces/interfaces';
 import { PostsService } from 'src/app/services/posts.service';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
+declare const window: any;
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.page.html',
@@ -21,7 +23,8 @@ export class CreatePostPage {
   constructor(
     private postsService: PostsService,
     private router: Router,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
+    private camera: Camera
   ) {}
 
   public async createPost(): Promise<void> {
@@ -53,5 +56,29 @@ export class CreatePostPage {
         console.log(err);
         this.geoLocationLoading = false;
       });
+  }
+
+  public useCamera() {
+    const options: CameraOptions = {
+      quality: 60,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+    };
+
+    this.camera.getPicture(options).then(
+      (imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        const img = window.Ionic.WebView.converFileSrc(imageData);
+        console.log(img);
+        this.tempImages.push(img);
+      },
+      (err) => {
+        // Handle error
+      }
+    );
   }
 }

@@ -69,7 +69,7 @@ export class UserService {
       return Promise.resolve(false);
     }
     // Si existe que se haga la validacion normal
-    return new Promise((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       const headers = new HttpHeaders({
         'x-token': this.token,
       });
