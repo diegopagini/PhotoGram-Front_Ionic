@@ -21,24 +21,12 @@
         [ngStyle]="{ 'background-image': 'url(' + img1 + ')' }"
       >
       </ion-slide>
-      <ion-slide
-        class="post__slide-image"
-        [ngStyle]="{ 'background-image': 'url(' + '/assets/perro-2.jpg' + ')' }"
-      >
-      </ion-slide>
-      <ion-slide
-        class="post__slide-image"
-        [ngStyle]="{ 'background-image': 'url(' + '/assets/perro-3.jpg' + ')' }"
-      >
-      </ion-slide>
     </ion-slides>
   </div>
 
   <!-- Mapa -->
-  <ion-item lines="none">
-    <ion-icon slot="start" name="heart-outline"></ion-icon>
-    <ion-icon slot="end" name="bookmark"></ion-icon>
-  </ion-item>
+
+  <app-map *ngIf="post.coords" [coords]="post.coords"></app-map>
 
   <ion-item lines="none">
     <ion-label text-wrap>{{ post.message }}</ion-label>

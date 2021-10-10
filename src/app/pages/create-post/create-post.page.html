@@ -4,7 +4,7 @@
 
     <ion-buttons slot="end">
       <ion-button
-        [disabled]="post.message.length < 1"
+        [disabled]="post.message.length < 1 || geoLocationLoading"
         (click)="createPost()"
         color="primary"
       >
@@ -25,8 +25,15 @@
     <ion-list>
       <ion-item>
         <ion-label>Posición actual</ion-label>
-        <ion-spinner name="lines-small"></ion-spinner>
-        <ion-toggle slot="end"></ion-toggle>
+        <ion-spinner
+          name="lines-small"
+          *ngIf="geoLocationLoading"
+        ></ion-spinner>
+        <ion-toggle
+          [(ngModel)]="post.coords"
+          (ionChange)="getGeolocation()"
+          slot="end"
+        ></ion-toggle>
       </ion-item>
     </ion-list>
   </ion-list>

@@ -11,6 +11,7 @@ export interface Post {
   coords?: string;
   user?: User;
   created?: string;
+  position?: boolean;
 }
 
 export interface User {
