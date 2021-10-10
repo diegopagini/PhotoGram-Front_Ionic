@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Geolocation,
     Camera,
+    ImagePicker,
   ],
   bootstrap: [AppComponent],
 })

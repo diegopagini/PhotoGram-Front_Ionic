@@ -43,7 +43,6 @@ export class CreatePostPage {
       this.post.coords = null;
       return;
     }
-
     this.geoLocationLoading = true;
     this.geolocation
       .getCurrentPosition()
@@ -58,7 +57,7 @@ export class CreatePostPage {
       });
   }
 
-  public useCamera() {
+  public useCamera(): void {
     const options: CameraOptions = {
       quality: 60,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -67,7 +66,22 @@ export class CreatePostPage {
       correctOrientation: true,
       sourceType: this.camera.PictureSourceType.CAMERA,
     };
+    this.processImage(options);
+  }
 
+  public useLibrary(): void {
+    const options: CameraOptions = {
+      quality: 60,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    };
+    this.processImage(options);
+  }
+
+  private processImage(options: CameraOptions): void {
     this.camera.getPicture(options).then(
       (imageData) => {
         // imageData is either a base64 encoded string or a file URI
@@ -78,6 +92,7 @@ export class CreatePostPage {
       },
       (err) => {
         // Handle error
+        console.log(err);
       }
     );
   }
