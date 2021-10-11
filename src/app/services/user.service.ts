@@ -29,9 +29,9 @@ export class UserService {
       this.http
         .post(`${URL}/user/login`, data)
         .pipe(take(1))
-        .subscribe((resp: any) => {
+        .subscribe(async (resp: any) => {
           if (resp.ok) {
-            this.saveToken(resp.token);
+            await this.saveToken(resp.token);
             resolve(true);
           } else {
             this.token = null;
@@ -47,9 +47,9 @@ export class UserService {
       this.http
         .post(`${URL}/user/create`, user)
         .pipe(take(1))
-        .subscribe((resp: any) => {
+        .subscribe(async (resp: any) => {
           if (resp.ok) {
-            this.saveToken(resp.token);
+            await this.saveToken(resp.token);
             resolve(true);
           } else {
             this.token = null;
@@ -130,6 +130,7 @@ export class UserService {
   private async saveToken(token: string) {
     this.token = token;
     await this.storage.set('token', token);
+    await this.validateToken();
   }
 
   private async createStorage() {

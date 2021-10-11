@@ -37,6 +37,9 @@
   <!-- Mapa -->
   <app-map *ngIf="post.coords" [coords]="post.coords"></app-map>
 
+  <ion-item (click)="like()" lines="none">
+    <ion-icon slot="start" [name]="likeIcon"></ion-icon>
+  </ion-item>
   <ion-item lines="none">
     <ion-label text-wrap>{{ post.message }}</ion-label>
   </ion-item>

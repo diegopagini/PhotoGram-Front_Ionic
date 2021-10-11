@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/interfaces/interfaces';
+import { PostsService } from 'src/app/services/posts.service';
 import { UiService } from 'src/app/services/ui.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -16,7 +17,8 @@ export class ProfilePage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private uiService: UiService
+    private uiService: UiService,
+    private postService: PostsService
   ) {}
 
   ngOnInit() {
@@ -31,6 +33,7 @@ export class ProfilePage implements OnInit {
 
   public logout(): void {
     this.userService.logout();
+    this.postService.postPage = 0;
   }
 
   public avatarSelected(event) {

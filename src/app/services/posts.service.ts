@@ -18,7 +18,7 @@ const URL = environment.baseUrl;
 })
 export class PostsService {
   public newPost: EventEmitter<Post> = new EventEmitter<Post>();
-  private postPage = 0;
+  public postPage = 0;
 
   constructor(
     private http: HttpClient,
